@@ -6,6 +6,7 @@ import { renderLogin } from '../frontend/pages/security/LoginServer';
 import { EndpointsV1 } from '../api/EndPoints';
 import { ApiRoutes } from '../api/interfaces/ApiRoutes';
 import { GetUser } from '../database/query/User';
+import { renderApplication } from '../frontend/pages/RenderApplicationServer';
 
 export const startServer = async () => {
     const app = Express();
@@ -27,6 +28,11 @@ export const startServer = async () => {
         const html = renderLogin();
         res.send(html);
     });
+
+    app.get('/UserProfile', async (req, res) => {
+        const html = renderApplication();
+        res.send(html);
+    })
 
     /**
      * api endpoints

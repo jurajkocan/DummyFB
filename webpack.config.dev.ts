@@ -6,6 +6,7 @@ const config = {
     context: __dirname,
     entry: {
         login: "./src/frontend/pages/security/LoginClient.tsx",
+        app: "./src/frontend/pages/RenderApplicationClient.tsx"
     },
     target: "web",
     output: {
@@ -24,9 +25,6 @@ const config = {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: "ts-loader?configFile=tsconfig.json",
-                options: {
-                    configFile: "tsconfig.json"
-                }
             }
         ]
     },
