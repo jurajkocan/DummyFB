@@ -1,0 +1,11 @@
+{
+    "verbose": false,
+    "watch": [
+        "src"
+    ],
+    "ext": "ts,tsx,js,jsx,json,php,css,txt,jpg,png,html",
+    "ignore": [
+        "src/frontend/*"
+    ],
+    "exec": "ts-node ./src/index.ts"
+}
