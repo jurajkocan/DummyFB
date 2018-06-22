@@ -29,7 +29,7 @@ class Login extends React.Component<{} & any, LoginState & any> {
         this.props.form.validateFieldsAndScroll((err: any, values: any) => {
             axios.post('/api/v1/user/login', values).then((response) => {
                 if (response.status === 200)
-                    window.location.href = '/app';
+                    window.location.href = '/';
                 else {
                     message.error('Email or password are incorrect');
                     this.setState({

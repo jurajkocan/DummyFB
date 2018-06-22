@@ -8,7 +8,7 @@ export class UserProfile extends React.Component<{}, {}> {
     render() {
         return (
             <div>
-                User profile info, maybe with posts or will create another page where will be posts??
+                User profile info, maybe with posts or will create another page where will be posts???
             </div>
         );
     }

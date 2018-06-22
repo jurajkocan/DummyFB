@@ -19,10 +19,10 @@ ReactDOM.render(
                 <Route exact path="/" render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route exact path="/UserProfile" render={() => (
+                <Route path="/UserProfile" render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route exact path="/FindUser" render={() => (
+                <Route path="/FindUser" render={() => (
                     <MasterPage currentPage='findFriends' />
                 )} />
             </Switch>

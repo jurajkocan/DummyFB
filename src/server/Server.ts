@@ -7,6 +7,7 @@ import { EndpointsV1 } from '../api/EndPoints';
 import { ApiRoutes } from '../api/interfaces/ApiRoutes';
 import { GetUser } from '../database/query/User';
 import { renderApplication } from '../frontend/pages/RenderApplicationServer';
+import { validateToken } from '../jwt/JwtHanddler';
 
 export const startServer = async () => {
     const app = Express();
@@ -22,6 +23,32 @@ export const startServer = async () => {
     app.use(Express.static('./public'));
 
     /**
+     * check if user is authenticated on all request but api and security
+     */
+    app.use((req, res, next) => {
+        if (req.url.indexOf('/api') === -1 && req.url.indexOf('/security') === -1) {
+            if (isLoggedIn(req)) {
+                next();
+            } else {
+                res.redirect(303, '/security/login');
+            }
+        } else {
+            next();
+        }
+    });
+
+    const isLoggedIn = (req: Express.Request) => {
+        if (req.session) {
+            if (req.session.accessToken) {
+                if (validateToken(req.session.accessToken)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+
+    /**
     * @returns login page
     */
     app.get('/security/login', async (req, res) => {
@@ -29,10 +56,10 @@ export const startServer = async () => {
         res.send(html);
     });
 
-    app.get('/UserProfile', async (req, res) => {
+    app.get('*', async (req, res) => {
         const html = renderApplication();
         res.send(html);
-    })
+    });
 
     /**
      * api endpoints

@@ -9,6 +9,7 @@ const config = {
         app: "./src/frontend/pages/RenderApplicationClient.tsx"
     },
     target: "web",
+    mode: "development",
     output: {
         path: resolve(__dirname, "public"),
         filename: "[name].js",
