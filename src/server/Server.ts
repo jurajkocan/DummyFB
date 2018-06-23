@@ -134,7 +134,6 @@ export const startServer = async () => {
         const user = getUserFromSession(req);
         let html;
         if (user && userAccessToken) {
-            console.log('jaja here');
             const appState = getDefaultAppState(userAccessToken, user);
             html = renderApplication(appState);
         }

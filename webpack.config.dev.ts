@@ -1,6 +1,7 @@
 // @ts-check
 
 import { resolve } from 'path';
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
     context: __dirname,
@@ -23,17 +24,16 @@ const config = {
         rules: [
             // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
             {
-                test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: "ts-loader?configFile=tsconfig.json",
             }
         ]
     },
-    // plugins: [
-    //     new CopyWebpackPlugin([
-    //         { from: './lib/files/images', to: 'images' }
-    //     ])
-    // ]
+    plugins: [
+        new CopyWebpackPlugin([
+            { from: './src/server/images', to: 'images' }
+        ])
+    ]
 };
 
 module.exports = config;

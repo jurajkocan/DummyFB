@@ -7,6 +7,7 @@ import { MasterPage } from './MasterPage';
 import { createStore } from 'redux';
 import { reducer } from '../redux/Reducer';
 import { ReduxState } from '../redux/State';
+import { profileRoot, listUsersRoot } from '../../common/RootConstant';
 
 declare const window: {
     INIT_STATE: ReduxState
@@ -20,11 +21,11 @@ ReactDOM.render(
                 <Route exact path="/" render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route path="/userprofile" render={() => (
+                <Route path={profileRoot.rootUrl} render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route path="/finduser" render={() => (
-                    <MasterPage currentPage='findFriends' />
+                <Route path={listUsersRoot.rootUrl} render={() => (
+                    <MasterPage currentPage={listUsersRoot.rootName} />
                 )} />
             </Switch>
         </BrowserRouter>
