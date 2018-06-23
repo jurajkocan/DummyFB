@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { UserGrid } from '../../components/userOutlook/UserGrid';
 
-export class FindUser extends React.Component<{ email: string }, {}> {
+export class FindUser extends React.Component<{ userAccessToken: string }, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -8,8 +9,7 @@ export class FindUser extends React.Component<{ email: string }, {}> {
     render() {
         return (
             <div>
-                from redux state there is email: {this.props.email}
-                Find user... list of users with infinity scroll.. some buttons for add or whatever
+                <UserGrid userAccessToken={this.props.userAccessToken} />
             </div>
         );
     }

@@ -12,8 +12,13 @@ export const GetUser = async (id?: number, email?: string): Promise<DbUser> => {
         return getUserByEmail(email);
     }
     else {
-        return getUser();
+        throw ('id or email parameter has to be provided');
     }
+}
+
+export const GetAllUsers = async (): Promise<DbUser[]> => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users/');
+    return response.data as DbUser[];
 }
 
 const getUserById = async (id: number): Promise<DbUser> => {

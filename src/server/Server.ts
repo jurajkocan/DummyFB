@@ -108,6 +108,9 @@ export const startServer = async () => {
                             }
                             sendResponse(loginToken);
                             return;
+                        case '/api/v1/user/filtered':
+                            const response = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
+                            sendResponse(response)
                         default:
                             res.send('bad api endpoint');
                             return;

@@ -1,7 +1,7 @@
 import { ApiRoutes } from "./interfaces/ApiRoutes";
 import { User as UserRequest } from './interfaces/Request';
 import { User } from "./interfaces/Response";
-import { LoginUser } from "./Post";
+import { LoginUser, GetFilteredUsers } from "./Post";
 import { Request } from 'express-serve-static-core';
 
 export type Endpoints = {
@@ -12,5 +12,8 @@ export const EndpointsV1: Endpoints = {
     // POST
     '/api/v1/user/login': (req: Request, payload: UserRequest.ILoginUser) => {
         return LoginUser(payload.email, payload.password);
+    },
+    '/api/v1/user/filtered': (req: Request, payload: UserRequest.FilteredUser) => {
+        return GetFilteredUsers(payload.page, payload.pageSize, payload.searchText);
     },
 }

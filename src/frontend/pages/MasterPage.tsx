@@ -26,7 +26,7 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
         console.log(this.props.currentPage);
         switch (this.props.currentPage) {
             case 'listUsers':
-                return <FindUser email={this.props.user.email} />
+                return <FindUser userAccessToken={this.props.user.userToken} />
             case 'userProfile':
                 return <UserProfile />
         }
@@ -36,7 +36,7 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
         return (
             <div>
                 <Navigation defaultPage={profileRoot} />
-                <Content>{this.getPage()}}</Content>
+                <Content>{this.getPage()}</Content>
             </div>
         );
     }

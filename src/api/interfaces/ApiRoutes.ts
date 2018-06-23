@@ -6,5 +6,11 @@ export declare type ApiRoutes = {
         type: 'POST';
         payload: UserRequest.ILoginUser;
         response: UserResponse.ILoginUser;
-    };
+    },
+
+    '/api/v1/user/filtered': {
+        type: 'POST',
+        payload: UserRequest.FilteredUser,
+        response: UserResponse.IUser[]
+    }
 };
