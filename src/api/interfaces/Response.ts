@@ -3,9 +3,9 @@ export namespace User {
         token: string
     }
 
-    // TODO: bad user declaration position
     export interface IUser {
         id: number,
         email: string,
+        name: string
     }
 }

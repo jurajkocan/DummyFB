@@ -16,20 +16,6 @@ export const GetUser = async (id?: number, email?: string): Promise<DbUser> => {
     }
 }
 
-const getUser = async (data?: any): Promise<DbUser> => {
-    try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users/' + data);
-        if (Object.keys(response.data).length === 0)
-            throw (`no user with parameters: ${data}`);
-
-        const user = response.data as DbUser;
-        return user;
-    }
-    catch (e) {
-        throw (`error in db, error: ${e}`);
-    }
-}
-
 const getUserById = async (id: number): Promise<DbUser> => {
     const data = '/' + id;
     return getUser(data);
@@ -38,4 +24,18 @@ const getUserById = async (id: number): Promise<DbUser> => {
 const getUserByEmail = async (email: string): Promise<DbUser> => {
     const data = '?email=' + email;
     return getUser(data);
+}
+
+const getUser = async (data?: any): Promise<DbUser> => {
+    try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/users/' + data);
+        if (Object.keys(response.data).length === 0)
+            throw (`no user with parameters: ${data}`);
+
+        const user = response.data[0] as DbUser;
+        return user;
+    }
+    catch (e) {
+        throw (`error in db, error: ${e}`);
+    }
 }

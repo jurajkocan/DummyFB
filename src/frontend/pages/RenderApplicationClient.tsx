@@ -6,11 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { MasterPage } from './MasterPage';
 import { createStore } from 'redux';
 import { reducer } from '../redux/Reducer';
+import { ReduxState } from '../redux/State';
 
 declare const window: {
-    INIT_STATE: {}
+    INIT_STATE: ReduxState
 }
-const appStore = createStore(reducer, {})
+const appStore = createStore(reducer, window.INIT_STATE)
 
 ReactDOM.render(
     <Provider store={appStore} >
@@ -19,10 +20,10 @@ ReactDOM.render(
                 <Route exact path="/" render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route path="/UserProfile" render={() => (
+                <Route path="/userprofile" render={() => (
                     <MasterPage currentPage='userProfile' />
                 )} />
-                <Route path="/FindUser" render={() => (
+                <Route path="/finduser" render={() => (
                     <MasterPage currentPage='findFriends' />
                 )} />
             </Switch>

@@ -8,10 +8,14 @@ import { ApiRoutes } from '../api/interfaces/ApiRoutes';
 import { GetUser } from '../database/query/User';
 import { renderApplication } from '../frontend/pages/RenderApplicationServer';
 import { validateToken } from '../jwt/JwtHanddler';
+import { DbUser } from '../database/schema/DbUser.ts';
+import { getDefaultAppState, defaultAppState } from '../frontend/redux/State';
 
 export const startServer = async () => {
+    //region express settings
     const app = Express();
     app.use(BodyParser.urlencoded({ extended: false }));
+    app.use(BodyParser.json());
     app.use(Session(
         {
             secret: WebConfig.SessionConfiguration.SessionSecret,
@@ -21,6 +25,7 @@ export const startServer = async () => {
         }
     ));
     app.use(Express.static('./public'));
+    //#endregion
 
     /**
      * check if user is authenticated on all request but api and security
@@ -37,6 +42,7 @@ export const startServer = async () => {
         }
     });
 
+    //#region Work with session
     const isLoggedIn = (req: Express.Request) => {
         if (req.session) {
             if (req.session.accessToken) {
@@ -48,16 +54,34 @@ export const startServer = async () => {
         return false;
     };
 
+    const getUserFromSession = (req: Express.Request) => {
+        if (req.session) {
+            if (req.session.user) {
+                return req.session.user as DbUser;
+            }
+        }
+        return null;
+    }
+
+    const getUserAccessTokenFromSession = (req: Express.Request) => {
+        if (req.session) {
+            if (req.session.accessToken) {
+                const payload = validateToken(req.session.accessToken) as any;
+                if (payload) {
+                    return req.session.accessToken as string;
+                }
+            }
+
+        }
+        return null;
+    }
+    //#endregion
+
     /**
     * @returns login page
     */
     app.get('/security/login', async (req, res) => {
         const html = renderLogin();
-        res.send(html);
-    });
-
-    app.get('*', async (req, res) => {
-        const html = renderApplication();
         res.send(html);
     });
 
@@ -77,7 +101,7 @@ export const startServer = async () => {
                     switch (endpointIn) {
                         case '/api/v1/user/login':
                             const loginToken = await EndpointsV1['/api/v1/user/login'](req, req.body);
-                            const user = GetUser(req.body.email);
+                            const user = await GetUser(undefined, req.body.email);
                             if (req.session) {
                                 req.session.accessToken = loginToken.token;
                                 req.session.user = user;
@@ -90,7 +114,7 @@ export const startServer = async () => {
                     }
                 }
                 catch (e) {
-                    res.status(500).send(e.message);
+                    res.status(400).send(e.message);
                 }
             }
             else {
@@ -104,6 +128,22 @@ export const startServer = async () => {
         }
     });
 
+
+    app.get('*', async (req, res) => {
+        const userAccessToken = getUserAccessTokenFromSession(req);
+        const user = getUserFromSession(req);
+        let html;
+        if (user && userAccessToken) {
+            console.log('jaja here');
+            const appState = getDefaultAppState(userAccessToken, user);
+            html = renderApplication(appState);
+        }
+        else {
+            const appState = defaultAppState;
+            html = renderApplication(appState);
+        }
+        res.send(html);
+    });
     app.listen(3000);
     console.log('server started');
 }
