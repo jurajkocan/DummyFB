@@ -6,6 +6,8 @@ export namespace User {
     export interface IUser {
         id: number,
         email: string,
-        name: string
+        name: string,
+        imageUrl: string,
+        isConnected: boolean
     }
 }

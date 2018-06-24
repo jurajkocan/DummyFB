@@ -110,7 +110,8 @@ export const startServer = async () => {
                             return;
                         case '/api/v1/user/filtered':
                             const response = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
-                            sendResponse(response)
+                            sendResponse(response);
+                            return;
                         default:
                             res.send('bad api endpoint');
                             return;

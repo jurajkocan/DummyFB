@@ -1,14 +1,24 @@
 import * as React from 'react';
+import { PostView } from '../../components/userPosts/PostView';
+
+
+export type UserProfileProps = {
+    id: number
+}
 
 export class UserProfile extends React.Component<{}, {}> {
     constructor(props: any) {
         super(props);
     }
 
+    getUserPosts = () => {
+
+    }
+
     render() {
         return (
             <div>
-                User profile info, maybe with posts or will create another page where will be posts???
+                <PostView post='oh some random text as a post' />
             </div>
         );
     }

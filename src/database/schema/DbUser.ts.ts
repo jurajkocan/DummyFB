@@ -5,7 +5,10 @@ export interface DbUser {
     address: DbAddress,
     phone: string,
     website: string,
-    company: DbCompany
+    company: DbCompany,
+
+    imageUrl: string,
+    isConnected: boolean,
 }
 
 export interface DbAddress {

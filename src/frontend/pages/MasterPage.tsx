@@ -35,8 +35,12 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
     render() {
         return (
             <div>
-                <Navigation defaultPage={profileRoot} />
-                <Content>{this.getPage()}</Content>
+                <div style={{ position: 'fixed', width: '100%', top: 0, zIndex: 100 }}>
+                    <Navigation defaultPage={profileRoot} />
+                </div>
+                <div style={{ width: 700, marginLeft: 'auto', marginRight: 'auto', marginTop: 70 }}>
+                    {this.getPage()}
+                </div>
             </div>
         );
     }

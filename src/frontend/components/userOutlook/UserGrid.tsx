@@ -29,7 +29,7 @@ export namespace UserGridStyle {
     });
 
     export const gridRow = style({
-        marginBottom: 20,
+        marginBottom: 0,
     });
 }
 
@@ -56,12 +56,20 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
         this.state = {
             hasMoreItems: true,
             page: 0,
-            pageSize: 10,
+            pageSize: 5,
             searchText: '',
             users: [],
             isNewSearch: true,
             showLoading: false
         }
+    }
+
+    connectUser = () => {
+        return true;
+    }
+
+    disconnectUser = () => {
+        return true;
     }
 
     getUsers = async (userToken: string, page: number, pageSize: number, searchText: string) => {
@@ -84,19 +92,15 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
         }
     }
 
-    searchUser = async () => {
-        const page = this.state.page;
-        const pageSize = this.state.pageSize;
-        const searchText = this.state.searchText;
-        const listUsers = await this.getUsers(this.props.userAccessToken, page, pageSize, searchText);
+    searchUser = async (searchText: string) => {
         this.setState({
-            users: this.state.isNewSearch ? listUsers : this.state.users.concat(listUsers),
-            hasMoreItems: listUsers.length === pageSize,
-            isNewSearch: false,
-            page: page + 1,
-            pageSize: pageSize + pageSize,
-            showLoading: false
-        });
+            page: 0,
+            pageSize: 5,
+            searchText: searchText,
+            isNewSearch: true,
+            users: [],
+            showLoading: true,
+        }, this.loadMore);
     }
 
     loadMore = async () => {
@@ -109,7 +113,7 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
             hasMoreItems: listUsers.length === pageSize,
             isNewSearch: false,
             page: page + 1,
-            pageSize: pageSize + pageSize,
+            pageSize: pageSize,
             showLoading: false
         });
     }
@@ -118,26 +122,13 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
         return this.state.users.map((user, index) => {
             return (
                 <UserView
+                    onConnect={this.connectUser}
+                    onDisconnect={this.disconnectUser}
+                    key={index}
                     user={user}
                 />
             )
         })
-    }
-
-    scroll = () => {
-        return (
-            <div>
-                <InfiniteScroll
-                    pageStart={0}
-                    loadMore={this.loadMore}
-                    hasMore={this.state.hasMoreItems}
-                    loader={<div className={UserGridStyle.loader}></div>}
-                    useWindow={true}
-                >
-                    {this.renderRows()}
-                </InfiniteScroll>
-            </div>
-        )
     }
 
     render() {
@@ -154,7 +145,15 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
                 </div>
                 <div>
                     {this.state.showLoading ? <div className={UserGridStyle.loader}></div> : ''}
-                    {this.scroll()}
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={this.loadMore}
+                        hasMore={this.state.hasMoreItems}
+                        loader={<div className={UserGridStyle.loader}></div>}
+                        useWindow={true}
+                    >
+                        {this.renderRows()}
+                    </InfiniteScroll>
                 </div>
             </div>
         )

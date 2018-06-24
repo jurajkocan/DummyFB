@@ -18,7 +18,8 @@ export const GetUser = async (id?: number, email?: string): Promise<DbUser> => {
 
 export const GetAllUsers = async (): Promise<DbUser[]> => {
     const response = await axios.get('https://jsonplaceholder.typicode.com/users/');
-    return response.data as DbUser[];
+    const users = response.data as DbUser[];
+    return fakeData(users) as DbUser[];
 }
 
 const getUserById = async (id: number): Promise<DbUser> => {
@@ -38,9 +39,33 @@ const getUser = async (data?: any): Promise<DbUser> => {
             throw (`no user with parameters: ${data}`);
 
         const user = response.data[0] as DbUser;
-        return user;
+        return fakeData(user) as DbUser;
     }
     catch (e) {
         throw (`error in db, error: ${e}`);
+    }
+}
+
+// fake user data (image and connection)
+const fakeData = (user: DbUser | DbUser[]) => {
+    const addDataToUser = (userToExtend: DbUser) => {
+        const randomNumber = Math.floor(Math.random() * 11);
+        const randomBool = (Math.floor(Math.random() * 2)) === 0 ? false : true;
+        const extendedUSer: DbUser = {
+            ...userToExtend,
+            imageUrl: 'https://randomuser.me/api/portraits/women/' + randomNumber + '.jpg',
+            isConnected: randomBool
+        }
+
+        return extendedUSer;
+    }
+
+    if (Array.isArray(user)) {
+        return user.map((u) => {
+            return addDataToUser(u);
+        });
+    }
+    else {
+        return addDataToUser(user);
     }
 }
