@@ -11,3 +11,11 @@ export namespace User {
         isConnected: boolean
     }
 }
+
+export namespace Post {
+    export interface IPost {
+        text: string,
+        createdByName: string,
+        createdById: number
+    }
+}

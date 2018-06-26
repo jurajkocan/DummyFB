@@ -39,7 +39,7 @@ export class UserView extends React.Component<UserViewProps, UserViewState> {
     }
 
     seeProfile = () => {
-
+        window.location.href = 'profile';
     }
 
     render() {

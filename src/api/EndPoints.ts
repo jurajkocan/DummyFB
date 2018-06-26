@@ -1,7 +1,7 @@
 import { ApiRoutes } from "./interfaces/ApiRoutes";
-import { User as UserRequest } from './interfaces/Request';
+import { User as UserRequest, Post as PostRequest } from './interfaces/Request';
 import { User } from "./interfaces/Response";
-import { LoginUser, GetFilteredUsers } from "./Post";
+import { LoginUser, GetFilteredUsers, GetFilteredPosts } from "./Post";
 import { Request } from 'express-serve-static-core';
 
 export type Endpoints = {
@@ -16,4 +16,7 @@ export const EndpointsV1: Endpoints = {
     '/api/v1/user/filtered': (req: Request, payload: UserRequest.FilteredUser) => {
         return GetFilteredUsers(payload.page, payload.pageSize, payload.searchText);
     },
+    '/api/v1/post/filtered': (req: Request, payload: PostRequest.FilteredPosts) => {
+        return GetFilteredPosts(payload.userId, payload.page, payload.pageSize);
+    }
 }

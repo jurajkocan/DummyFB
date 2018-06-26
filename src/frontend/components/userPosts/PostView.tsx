@@ -13,11 +13,12 @@ export class PostView extends React.Component<UserPostProps> {
 
     render() {
         return (
-            <div style={{ height: 300 }}>
+            <div style={{ marginBottom: 10 }}>
                 <Card title='Post'>
                     <div>
                         <Row>
                             <Col span={24}>
+                                nadtym dakde email kto ho vytvoril abo name
                                 {this.props.post}
                             </Col>
                         </Row>

@@ -5,10 +5,10 @@ import { WebConfig } from '../WebConfig';
 import { renderLogin } from '../frontend/pages/security/LoginServer';
 import { EndpointsV1 } from '../api/EndPoints';
 import { ApiRoutes } from '../api/interfaces/ApiRoutes';
-import { GetUser } from '../database/query/User';
+import { getUser } from '../database/query/User';
 import { renderApplication } from '../frontend/pages/RenderApplicationServer';
 import { validateToken } from '../jwt/JwtHanddler';
-import { DbUser } from '../database/schema/DbUser.ts';
+import { DbUser } from '../database/schema/DbUser';
 import { getDefaultAppState, defaultAppState } from '../frontend/redux/State';
 
 export const startServer = async () => {
@@ -101,7 +101,7 @@ export const startServer = async () => {
                     switch (endpointIn) {
                         case '/api/v1/user/login':
                             const loginToken = await EndpointsV1['/api/v1/user/login'](req, req.body);
-                            const user = await GetUser(undefined, req.body.email);
+                            const user = await getUser(undefined, req.body.email);
                             if (req.session) {
                                 req.session.accessToken = loginToken.token;
                                 req.session.user = user;
@@ -109,8 +109,12 @@ export const startServer = async () => {
                             sendResponse(loginToken);
                             return;
                         case '/api/v1/user/filtered':
-                            const response = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
-                            sendResponse(response);
+                            const userResponse = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
+                            sendResponse(userResponse);
+                            return;
+                        case '/api/v1/post/filtered':
+                            const postResponse = await EndpointsV1['/api/v1/post/filtered'](req, req.body);
+                            sendResponse(postResponse);
                             return;
                         default:
                             res.send('bad api endpoint');

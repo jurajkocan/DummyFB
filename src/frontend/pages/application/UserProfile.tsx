@@ -1,24 +1,24 @@
 import * as React from 'react';
-import { PostView } from '../../components/userPosts/PostView';
+import { PostGrid } from '../../components/userPosts/PostGrid';
 
 
 export type UserProfileProps = {
+    userAccessToken: string,
     id: number
 }
 
-export class UserProfile extends React.Component<{}, {}> {
+export class UserProfile extends React.Component<UserProfileProps, {}> {
     constructor(props: any) {
         super(props);
-    }
-
-    getUserPosts = () => {
-
     }
 
     render() {
         return (
             <div>
-                <PostView post='oh some random text as a post' />
+                <PostGrid
+                    userAccessToken={this.props.userAccessToken}
+                    userId={this.props.id}
+                />
             </div>
         );
     }

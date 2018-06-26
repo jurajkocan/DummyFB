@@ -28,7 +28,8 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
             case 'listUsers':
                 return <FindUser userAccessToken={this.props.user.userToken} />
             case 'userProfile':
-                return <UserProfile />
+                return <UserProfile userAccessToken={this.props.user.userToken} id={this.props.user.id}
+                />
         }
     }
 

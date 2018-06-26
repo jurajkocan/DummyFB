@@ -1,10 +1,9 @@
-import { GetAllUsers } from '../../database/query/User';
-import { DbUser } from '../../database/schema/DbUser.ts';
+import { getAllUsers } from '../../database/query/User';
+import { getPosts } from '../../database/query/Post';
+import { DbUser } from '../../database/schema/DbUser';
 
 export const getFilteredUsers = async (page: number, pageSize: number, searchText: string) => {
-    console.log(page, pageSize);
-    const allUsers = await GetAllUsers();
-    console.log('lenght: ', allUsers.length)
+    const allUsers = await getAllUsers();
     const filteredUsers = allUsers.filter((user: DbUser) => {
         // TODO: add some better full text search
         if (searchText && searchText !== '') {
@@ -19,4 +18,9 @@ export const getFilteredUsers = async (page: number, pageSize: number, searchTex
     const to = from + pageSize;
 
     return filteredUsers.slice(from, to);
+}
+
+export const getUserPosts = async (userId: number) => {
+    const posts = await getPosts(undefined, userId);
+    return posts;
 }

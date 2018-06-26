@@ -10,3 +10,16 @@ export namespace User {
         searchText: string
     }
 }
+
+export namespace Post {
+    export interface FilteredPosts {
+        page: number,
+        pageSize: number,
+        userId: number
+    }
+
+    export interface CreatePost {
+        text: string
+        userId: number
+    }
+}

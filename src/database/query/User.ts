@@ -1,10 +1,10 @@
-import { DbUser } from '../schema/DbUser.ts';
+import { DbUser } from '../schema/DbUser';
 import axios from 'axios';
 
 // should be db but i am not going to create custom db for it
 // using api as db
 
-export const GetUser = async (id?: number, email?: string): Promise<DbUser> => {
+export const getUser = async (id?: number, email?: string): Promise<DbUser> => {
     if (id) {
         return await getUserById(id);
     }
@@ -16,7 +16,7 @@ export const GetUser = async (id?: number, email?: string): Promise<DbUser> => {
     }
 }
 
-export const GetAllUsers = async (): Promise<DbUser[]> => {
+export const getAllUsers = async (): Promise<DbUser[]> => {
     const response = await axios.get('https://jsonplaceholder.typicode.com/users/');
     const users = response.data as DbUser[];
     return fakeData(users) as DbUser[];
@@ -24,15 +24,15 @@ export const GetAllUsers = async (): Promise<DbUser[]> => {
 
 const getUserById = async (id: number): Promise<DbUser> => {
     const data = '/' + id;
-    return getUser(data);
+    return getUserFromDb(data);
 }
 
 const getUserByEmail = async (email: string): Promise<DbUser> => {
     const data = '?email=' + email;
-    return getUser(data);
+    return getUserFromDb(data);
 }
 
-const getUser = async (data?: any): Promise<DbUser> => {
+const getUserFromDb = async (data?: any): Promise<DbUser> => {
     try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users/' + data);
         if (Object.keys(response.data).length === 0)
