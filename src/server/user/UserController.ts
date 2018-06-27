@@ -20,7 +20,9 @@ export const getFilteredUsers = async (page: number, pageSize: number, searchTex
     return filteredUsers.slice(from, to);
 }
 
-export const getUserPosts = async (userId: number) => {
+export const getFilteredUserPosts = async (userId: number, page: number, pageSize: number) => {
     const posts = await getPosts(undefined, userId);
-    return posts;
+    const from = page * pageSize;
+    const to = from + pageSize;
+    return posts.slice(from, to);
 }

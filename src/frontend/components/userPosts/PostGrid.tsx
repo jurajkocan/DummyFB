@@ -79,16 +79,21 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
             pageSize: pageSize,
             userId: userId
         }
-        const response = await axios.post('/api/v1/post/filtered', payload, {
-            headers: {
-                'Authorization': 'Bearer ' + userToken,
+        try {
+            const response = await axios.post('/api/v1/post/filtered', payload, {
+                headers: {
+                    'Authorization': 'Bearer ' + userToken,
+                }
+            });
+            if (response.data) {
+                const responsePosts = response.data as PostResponse.IPost[]
+                return responsePosts;
             }
-        });
-        if (response.data) {
-            const responsePosts = response.data as PostResponse.IPost[]
-            return responsePosts;
+            else {
+                return [];
+            }
         }
-        else {
+        catch (err) {
             return [];
         }
     }

@@ -6,6 +6,7 @@ import axios from 'axios';
 
 export const getUser = async (id?: number, email?: string): Promise<DbUser> => {
     if (id) {
+        console.log(await getUserById(id));
         return await getUserById(id);
     }
     else if (email) {
@@ -24,17 +25,17 @@ export const getAllUsers = async (): Promise<DbUser[]> => {
 
 const getUserById = async (id: number): Promise<DbUser> => {
     const data = '/' + id;
-    return getUserFromDb(data);
+    return await getUserFromDb(data);
 }
 
 const getUserByEmail = async (email: string): Promise<DbUser> => {
     const data = '?email=' + email;
-    return getUserFromDb(data);
+    return await getUserFromDb(data);
 }
 
 const getUserFromDb = async (data?: any): Promise<DbUser> => {
     try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users/' + data);
+        const response = await axios.get('https://jsonplaceholder.typicode.com/users' + data);
         if (Object.keys(response.data).length === 0)
             throw (`no user with parameters: ${data}`);
 
@@ -49,7 +50,7 @@ const getUserFromDb = async (data?: any): Promise<DbUser> => {
 // fake user data (image and connection)
 const fakeData = (user: DbUser | DbUser[]) => {
     const addDataToUser = (userToExtend: DbUser) => {
-        const randomNumber = Math.floor(Math.random() * 11);
+        const randomNumber = Math.floor(Math.random() * 10) + 1;
         const randomBool = (Math.floor(Math.random() * 2)) === 0 ? false : true;
         const extendedUSer: DbUser = {
             ...userToExtend,

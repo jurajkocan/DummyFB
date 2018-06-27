@@ -38,7 +38,7 @@ export class PostCreate extends React.Component<PostCreateProps, PostCreateState
             <div>
                 <TextArea value={this.state.postText} onChange={this.onTextChange} placeholder="U can write here your own post" autosize={{ minRows: 4, maxRows: 12 }} />
                 <div>
-                    <Button style={{ float: 'right', marginTop: 10 }} type='primary' onClick={this.onPostSend}>Send</Button>
+                    <Button style={{ width: '100%', marginTop: 10 }} type='primary' onClick={this.onPostSend}>Send</Button>
                 </div>
             </div>
         )

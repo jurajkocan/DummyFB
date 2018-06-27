@@ -1,6 +1,5 @@
 import { ApiRoutes } from "./interfaces/ApiRoutes";
 import { User as UserRequest, Post as PostRequest } from './interfaces/Request';
-import { User } from "./interfaces/Response";
 import { LoginUser, GetFilteredUsers, GetFilteredPosts } from "./Post";
 import { Request } from 'express-serve-static-core';
 
