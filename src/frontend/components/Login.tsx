@@ -38,7 +38,8 @@ class Login extends React.Component<{} & any, LoginState & any> {
                     });
                 }
             }).catch((error) => {
-                message.error(error.response.data.clientMessage);
+                console.log(error);
+                message.error(error.response.data);
                 this.setState({
                     isLoginEnable: true
                 });
@@ -51,7 +52,7 @@ class Login extends React.Component<{} & any, LoginState & any> {
         return (
             <div className={LoginStyle.LoginWrapper} >
                 <div className={LoginStyle.Card}>
-                    <Card title="Card title">
+                    <Card title="Login">
                         <Form onSubmit={this.handleSubmit} className="login-form">
                             <FormItem
                                 label="E-mail"

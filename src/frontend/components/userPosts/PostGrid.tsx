@@ -66,8 +66,11 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
         }
     }
 
-    createPost = (text: string) => {
-
+    createPost = (text: string): boolean => {
+        this.setState({
+            posts: [{ text: text, createdById: 1, createdByName: 'asd' }, ...this.state.posts]
+        });
+        return true;
     }
 
     getPosts = async (userToken: string, userId: number, page: number, pageSize: number, searchText: string) => {
@@ -111,6 +114,7 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
                 <PostView
                     key={index}
                     post={post.text}
+                    createdByName={post.createdByName}
                 />
             )
         })
@@ -121,7 +125,9 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
             <div>
                 <div>
                     <div className={PostGridStyle.gridHead} >
-                        <PostCreate />
+                        <PostCreate
+                            onPostSend={this.createPost}
+                        />
                     </div>
                 </div>
                 <div>

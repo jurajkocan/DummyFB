@@ -108,6 +108,7 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
         const pageSize = this.state.pageSize;
         const searchText = this.state.searchText;
         const listUsers = await this.getUsers(this.props.userAccessToken, page, pageSize, searchText);
+
         this.setState({
             users: this.state.isNewSearch ? listUsers : this.state.users.concat(listUsers),
             hasMoreItems: listUsers.length === pageSize,

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Menu, Layout, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { style } from 'typestyle/lib';
-import { IRootDescription, listUsersRoot, profileRoot } from '../../common/RootConstant';
+import { IRootDescription, listUsersRoot, profileRoot, rootName } from '../../common/RootConstant';
 import MenuItem from 'antd/lib/menu/MenuItem';
 import axios from 'axios';
 
@@ -30,7 +30,7 @@ const NavigationStyle = {
 }
 
 interface NavigationProps {
-    defaultPage: IRootDescription
+    selectedPage: rootName
 }
 
 interface NavigationState {
@@ -39,20 +39,21 @@ interface NavigationState {
 
 export class Navigation extends React.Component<NavigationProps, NavigationState> {
     logOut = () => {
-        // TODO: log out user
+        window.location.href = '/security/logout';
     }
 
-    getDefaultMenuKey = () => {
-        switch (this.props.defaultPage.rootName) {
+    getSelectedMenuKey = () => {
+        switch (this.props.selectedPage) {
             case 'userProfile':
                 return ['1'];
             case 'listUsers':
                 return ['2'];
+            default:
+                return [''];
         }
     }
 
     render() {
-        const defaultMenuKey = this.getDefaultMenuKey();
         return (
             <div>
                 <img className={NavigationStyle.NavigationLogo} src='/images/TomMenuLogo.png' />
@@ -62,13 +63,13 @@ export class Navigation extends React.Component<NavigationProps, NavigationState
                 <Menu
                     theme="light"
                     mode="horizontal"
-                    defaultSelectedKeys={defaultMenuKey}
+                    selectedKeys={this.getSelectedMenuKey()}
                     style={{ lineHeight: '64px' }}
                 >
                     <Menu.Item key="1">
                         <Link to={profileRoot.rootUrl}>
                             Profile
-                                </Link>
+                        </Link>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Link to={listUsersRoot.rootUrl}>

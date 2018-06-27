@@ -4,7 +4,6 @@ import { FindUser } from './application/FindUser';
 import { UserProfile } from './application/UserProfile';
 import { ReduxState } from '../redux/State';
 import { Navigation } from '../components/Navigation';
-import { profileRoot } from '../../common/RootConstant';
 import { Layout } from 'antd';
 import { rootName } from '../../common/RootConstant';
 
@@ -23,7 +22,6 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
     }
 
     getPage = () => {
-        console.log(this.props.currentPage);
         switch (this.props.currentPage) {
             case 'listUsers':
                 return <FindUser userAccessToken={this.props.user.userToken} />
@@ -37,7 +35,7 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
         return (
             <div>
                 <div style={{ position: 'fixed', width: '100%', top: 0, zIndex: 100 }}>
-                    <Navigation defaultPage={profileRoot} />
+                    <Navigation selectedPage={this.props.currentPage} />
                 </div>
                 <div style={{ width: 700, marginLeft: 'auto', marginRight: 'auto', marginTop: 70 }}>
                     {this.getPage()}
@@ -48,5 +46,5 @@ export class MasterPageComponent extends React.Component<MasterPageProps & Redux
 }
 
 export const MasterPage = connect(
-    (state: ReduxState) => { console.log('state: ', state); return state; }
+    (state: ReduxState) => { return state; }
 )(MasterPageComponent);

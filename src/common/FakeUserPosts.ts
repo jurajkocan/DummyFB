@@ -6,6 +6,7 @@ export const getFakePostContent = (numberOfPosts: number): string[] => {
     //     return faker.lorem.sentence();
     // });
     // return res;
+    // console.log(res) -> [ <10 empty items> ] ?? wtf is this?
 
     const res = [];
     for (let i = 0; i < numberOfPosts; i++) {

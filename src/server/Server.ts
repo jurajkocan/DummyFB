@@ -10,9 +10,10 @@ import { renderApplication } from '../frontend/pages/RenderApplicationServer';
 import { validateToken } from '../jwt/JwtHanddler';
 import { DbUser } from '../database/schema/DbUser';
 import { getDefaultAppState, defaultAppState } from '../frontend/redux/State';
+import { authenticated } from '../api/Authorization';
 
 export const startServer = async () => {
-    //region express settings
+    //#region express settings
     const app = Express();
     app.use(BodyParser.urlencoded({ extended: false }));
     app.use(BodyParser.json());
@@ -86,35 +87,54 @@ export const startServer = async () => {
     });
 
     /**
-     * api endpoints
+     * @description api endpoints
      */
     app.use(async (req, res, next) => {
-        const sendResponse = (result: any) => {
-            res.status(200).send(result);
+        const sendResponse = (result: any, error?: string) => {
+            if (result)
+                res.status(200).send(result);
+            else
+                res.status(400).send(error);
         }
 
         if (req.url.includes('/api')) {
             const currentEndpoint = Object.keys(EndpointsV1).find((endPoint) => { return endPoint === req.url });
             if (currentEndpoint) {
                 const endpointIn = currentEndpoint as keyof ApiRoutes;
+                const [authPayload, errorMessage] = await authenticated(req);
                 try {
                     switch (endpointIn) {
                         case '/api/v1/user/login':
                             const loginToken = await EndpointsV1['/api/v1/user/login'](req, req.body);
-                            const user = await getUser(undefined, req.body.email);
-                            if (req.session) {
-                                req.session.accessToken = loginToken.token;
-                                req.session.user = user;
+                            try {
+                                const user = await getUser(undefined, req.body.email);
+                                if (req.session) {
+                                    req.session.accessToken = loginToken.token;
+                                    req.session.user = user;
+                                }
+                            } catch (e) {
+                                sendResponse(undefined, 'Email or password are incorrect');
                             }
+
                             sendResponse(loginToken);
                             return;
                         case '/api/v1/user/filtered':
-                            const userResponse = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
-                            sendResponse(userResponse);
+                            if (authPayload) {
+                                const userResponse = await EndpointsV1['/api/v1/user/filtered'](req, req.body);
+                                sendResponse(userResponse);
+                            }
+                            else {
+                                sendResponse(undefined, errorMessage);
+                            }
                             return;
                         case '/api/v1/post/filtered':
-                            const postResponse = await EndpointsV1['/api/v1/post/filtered'](req, req.body);
-                            sendResponse(postResponse);
+                            if (authPayload) {
+                                const postResponse = await EndpointsV1['/api/v1/post/filtered'](req, req.body);
+                                sendResponse(postResponse);
+                            }
+                            else {
+                                sendResponse(undefined, errorMessage);
+                            }
                             return;
                         default:
                             res.send('bad api endpoint');
@@ -122,7 +142,8 @@ export const startServer = async () => {
                     }
                 }
                 catch (e) {
-                    res.status(400).send(e.message);
+                    res.statusMessage = e.message;
+                    res.status(400).send();
                 }
             }
             else {
@@ -136,6 +157,16 @@ export const startServer = async () => {
         }
     });
 
+    /**
+     * @description logout user, if user is in session will be removed
+     */
+    app.get('/security/logout', async (req, res) => {
+        if (req.session) {
+            req.session.accessToken = null;
+            req.session.user = null;
+        }
+        res.redirect('/security/login');
+    });
 
     app.get('*', async (req, res) => {
         const userAccessToken = getUserAccessTokenFromSession(req);

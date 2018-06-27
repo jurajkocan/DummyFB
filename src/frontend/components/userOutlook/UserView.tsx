@@ -43,21 +43,33 @@ export class UserView extends React.Component<UserViewProps, UserViewState> {
     }
 
     render() {
+        const renderUserData = {
+            'Email': this.props.user.email,
+            'City': this.props.user.address.city,
+            'Website': this.props.user.website,
+            'Phone': this.props.user.website,
+            'Company name': this.props.user.company.name
+        }
+
         return (
             <div style={{ height: 300 }}>
-                <Card title='User'>
+                <Card title={this.props.user.name}>
                     <div>
                         <Row>
                             <Col span={6}>
                                 <img alt='oops something is wrong' src={this.props.user.imageUrl} />
                             </Col>
                             <Col span={9}>
-                                <div>
-                                    <span style={{ fontWeight: 'bold' }}> name: </span> {this.props.user.name}
-                                </div>
-                                <div>
-                                    <span style={{ fontWeight: 'bold' }}> email: </span> {this.props.user.email}
-                                </div>
+                                {
+                                    Object.keys(renderUserData).map(key => {
+                                        const objectKey = key as keyof typeof renderUserData;
+                                        return (
+                                            <div>
+                                                <span style={{ fontWeight: 'bold' }}> {objectKey}: </span> {renderUserData[objectKey]}
+                                            </div>
+                                        )
+                                    })
+                                }
                             </Col>
                             <Col span={9}>
                                 <div style={{ float: 'right' }}>
