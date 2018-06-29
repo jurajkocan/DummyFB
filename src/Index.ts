@@ -1,8 +1,8 @@
-import { startServer } from './server/Server';
+import { startServer } from "./server/Server";
 
 const main = async () => {
-    console.log('server is starting');
+    console.log("server is starting");
     startServer();
 };
 
-main()
+main();

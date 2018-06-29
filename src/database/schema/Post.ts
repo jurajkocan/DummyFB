@@ -1,4 +1,4 @@
 export type Post = {
-    text: string,
-    createdBy: number
-}
+    text: string;
+    createdBy: number;
+};

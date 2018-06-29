@@ -5,7 +5,7 @@ export namespace WebConfig {
         /**
          * Secret for generate Jwt
          */
-        export const SessionSecret: string = 'SessionSecret192168';
+        export const SessionSecret: string = "SessionSecret192168";
         /**
          * Expire timeout in milliseconds
          */
@@ -13,10 +13,10 @@ export namespace WebConfig {
     }
 
     export namespace JWT {
-        export const JwtSecret: string = 'JwtSecret192168';
+        export const JwtSecret: string = "JwtSecret192168";
         /**
          * @description ((((60 == min) * 60 == hour) * 24 == day) * 7 == week)
-        */
-        export const JwtExpiration: number = 60 * 60 * 24 * 7
+         */
+        export const JwtExpiration: number = 60 * 60 * 24 * 7;
     }
 }

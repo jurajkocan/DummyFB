@@ -1,4 +1,4 @@
-const faker = require('faker');
+const faker = require("faker");
 faker.locale = "en";
 
 export const getFakePostContent = (numberOfPosts: number): string[] => {
@@ -14,4 +14,4 @@ export const getFakePostContent = (numberOfPosts: number): string[] => {
         res.push(rSentence);
     }
     return res;
-}
+};

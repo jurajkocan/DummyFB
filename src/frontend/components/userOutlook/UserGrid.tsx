@@ -78,16 +78,21 @@ export class UserGrid extends React.Component<UserGridProps, UserGridState> {
             pageSize: pageSize,
             searchText: searchText
         }
-        const response = await axios.post('/api/v1/user/filtered', payload, {
-            headers: {
-                'Authorization': 'Bearer ' + userToken,
+        try {
+            const response = await axios.post('/api/v1/user/filtered', payload, {
+                headers: {
+                    'Authorization': 'Bearer ' + userToken,
+                }
+            });
+            if (response.data) {
+                const responseUsers = response.data as UserResponse.IUser[]
+                return responseUsers;
             }
-        });
-        if (response.data) {
-            const responseUsers = response.data as UserResponse.IUser[]
-            return responseUsers;
+            else {
+                return [];
+            }
         }
-        else {
+        catch (e) {
             return [];
         }
     }

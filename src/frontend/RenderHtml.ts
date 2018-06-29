@@ -13,7 +13,7 @@ export const renderHtml = <S extends object>(
     style: string,
     initState: S,
     bodyHtml: string,
-    scriptSrc: string[],
+    scriptSrc: string[]
 ) => `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,9 +22,7 @@ export const renderHtml = <S extends object>(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>${title}</title>
-    ${styleSrc.map((src) =>
-        `<link href="${src}" rel="stylesheet">`).join("")
-    }
+    ${styleSrc.map(src => `<link href="${src}" rel="stylesheet">`).join("")}
         <style>${style}</style>
 </head>
 <body>
@@ -32,7 +30,8 @@ export const renderHtml = <S extends object>(
         window.INIT_STATE = ${JSON.stringify(initState)};
     </script>
     <div id="root" style="height: 100%">${bodyHtml}</div>
-    ${scriptSrc.map((src) =>
-        `<script type="text/javascript" src="${src}"></script>`).join("")}
+    ${scriptSrc
+        .map(src => `<script type="text/javascript" src="${src}"></script>`)
+        .join("")}
 </body>
 </html>`;

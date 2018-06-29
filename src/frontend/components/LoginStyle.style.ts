@@ -1,26 +1,25 @@
-import { style } from 'typestyle';
+import { style } from "typestyle";
 
 export namespace LoginStyle {
-    export const Card = style(
-        {
-            margin: 'auto',
-            width: 300,
-        }
-    );
+    export const Card = style({
+        margin: "auto",
+        width: 300
+    });
 
     export const LoginWrapper = style({
-        height: '100%',
-        width: '100%',
-        position: 'fixed',
-        display: 'flex',
-        textAlign: 'center',
+        height: "100%",
+        width: "100%",
+        position: "fixed",
+        display: "flex",
+        textAlign: "center"
     });
 
     export const SpaceWrapper = style({
-        marginBottom: 10,
+        marginBottom: 10
     });
 
-    export const AlertMessage = (show: boolean) => style({
-        display: show ? 'block' : 'none',
-    });
+    export const AlertMessage = (show: boolean) =>
+        style({
+            display: show ? "block" : "none"
+        });
 }

@@ -1,17 +1,17 @@
-export type rootName = 'userProfile' | 'listUsers';
+export type rootName = "userProfile" | "listUsers";
+export type rootUrl = "/profile" | "/users";
 
 export interface IRootDescription {
-    rootName: rootName,
-    rootUrl: string
+    rootName: rootName;
+    rootUrl: rootUrl;
 }
 
 export const profileRoot: IRootDescription = {
-    rootName: 'userProfile',
-    rootUrl: '/profile'
-}
+    rootName: "userProfile",
+    rootUrl: "/profile"
+};
 
 export const listUsersRoot: IRootDescription = {
-    rootName: 'listUsers',
-    rootUrl: '/users'
-}
-
+    rootName: "listUsers",
+    rootUrl: "/users"
+};
