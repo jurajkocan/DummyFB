@@ -26,27 +26,31 @@ class Login extends React.Component<{} & any, LoginState & any> {
             isLoginEnable: false
         });
         e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err: any, values: any) => {
-            axios
-                .post("/api/v1/user/login", values)
-                .then(response => {
-                    if (response.status === 200) window.location.href = "/";
-                    else {
+        this.props.form.validateFieldsAndScroll(
+            async (err: any, values: any) => {
+                try {
+                    const response = await axios.post(
+                        "/api/v1/user/login",
+                        values
+                    );
+                    if (response.status === 200) {
+                        window.location.href = "/";
+                    } else {
                         message.error("Email or password are incorrect");
                         this.setState({
                             error: "Email or password are incorrect",
                             isLoginEnable: true
                         });
                     }
-                })
-                .catch(error => {
+                } catch (error) {
                     console.log(error);
                     message.error(error.response.data);
                     this.setState({
                         isLoginEnable: true
                     });
-                });
-        });
+                }
+            }
+        );
     };
 
     render() {

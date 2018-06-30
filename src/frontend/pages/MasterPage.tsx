@@ -34,6 +34,14 @@ export class MasterPageComponent extends React.Component<
                         currentUser={this.props.user}
                     />
                 );
+            default:
+                return (
+                    <UserProfile
+                        userAccessToken={this.props.user.userToken}
+                        id={this.props.pages.userProfile.userId}
+                        currentUser={this.props.user}
+                    />
+                );
         }
     };
 

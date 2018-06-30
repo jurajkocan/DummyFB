@@ -3,15 +3,10 @@ import { Menu, Layout, message } from "antd";
 import { Link } from "react-router-dom";
 import { style } from "typestyle/lib";
 import {
-    IRootDescription,
     listUsersRoot,
     profileRoot,
     rootName
 } from "../../common/RootConstant";
-import MenuItem from "antd/lib/menu/MenuItem";
-import axios from "axios";
-
-const { Header } = Layout;
 
 const NavigationStyle = {
     NavigationWrapper: style({}),
@@ -34,18 +29,13 @@ interface NavigationProps {
     selectedPage: rootName;
 }
 
-interface NavigationState {}
-
-export class Navigation extends React.Component<
-    NavigationProps,
-    NavigationState
-> {
-    logOut = () => {
+export const Navigation = (props: NavigationProps) => {
+    const logOut = () => {
         window.location.href = "/security/logout";
     };
 
-    getSelectedMenuKey = () => {
-        switch (this.props.selectedPage) {
+    const getSelectedMenuKey = () => {
+        switch (props.selectedPage) {
             case "userProfile":
                 return ["1"];
             case "listUsers":
@@ -55,35 +45,28 @@ export class Navigation extends React.Component<
         }
     };
 
-    render() {
-        return (
-            <div>
-                <img
-                    className={NavigationStyle.NavigationLogo}
-                    src="/images/TomMenuLogo.png"
-                />
-                <div
-                    onClick={this.logOut}
-                    className={NavigationStyle.NavigationLogout}
-                >
-                    LogOut
-                </div>
-                <Menu
-                    theme="light"
-                    mode="horizontal"
-                    selectedKeys={this.getSelectedMenuKey()}
-                    style={{ lineHeight: "64px" }}
-                >
-                    <Menu.Item key="1">
-                        <Link to={profileRoot.rootUrl}>Profile</Link>
-                    </Menu.Item>
-                    <Menu.Item key="2">
-                        <Link to={listUsersRoot.rootUrl}>
-                            Find more friends
-                        </Link>
-                    </Menu.Item>
-                </Menu>
+    return (
+        <div>
+            <img
+                className={NavigationStyle.NavigationLogo}
+                src="/images/TomMenuLogo.png"
+            />
+            <div onClick={logOut} className={NavigationStyle.NavigationLogout}>
+                LogOut
             </div>
-        );
-    }
-}
+            <Menu
+                theme="light"
+                mode="horizontal"
+                selectedKeys={getSelectedMenuKey()}
+                style={{ lineHeight: "64px" }}
+            >
+                <Menu.Item key="1">
+                    <Link to={profileRoot.rootUrl}>Profile</Link>
+                </Menu.Item>
+                <Menu.Item key="2">
+                    <Link to={listUsersRoot.rootUrl}>Find more friends</Link>
+                </Menu.Item>
+            </Menu>
+        </div>
+    );
+};
