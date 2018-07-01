@@ -8,7 +8,6 @@ import {
     getFilteredUserPosts
 } from "../server/user/UserController";
 import { getUser } from "../database/query/User";
-import { WSAEMSGSIZE } from "constants";
 
 export const LoginUser = async (
     email: string,

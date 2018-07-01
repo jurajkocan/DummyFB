@@ -1,10 +1,8 @@
-import { User } from "../../api/interfaces/Response";
+import { User as UserResponse } from "../../api/interfaces/Response";
 
 export type PageSettings = {
     findUser: {};
-    userProfile: {
-        userId: number;
-    };
+    userProfile: UserResponse.IUser;
 };
 
 export type PageSettingsType = { [R in keyof PageSettings]: PageSettings[R] };
@@ -12,7 +10,7 @@ export type PageSettingsType = { [R in keyof PageSettings]: PageSettings[R] };
 export interface ReduxState {
     user: {
         userToken: string;
-    } & User.IUser;
+    } & UserResponse.IUser;
     pages: PageSettingsType;
 }
 
@@ -20,7 +18,7 @@ export const defaultAppState = <ReduxState>{};
 
 export const getDefaultAppState = (
     token: string,
-    user: User.IUser,
+    user: UserResponse.IUser,
     pages: PageSettingsType
 ): ReduxState => {
     return {

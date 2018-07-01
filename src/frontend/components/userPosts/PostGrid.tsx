@@ -6,7 +6,7 @@ import {
 } from "../../../api/interfaces/Response";
 import { Post as PostRequest } from "../../../api/interfaces/Request";
 import { style, keyframes } from "typestyle/lib";
-import { PostView } from "./PostView";
+import { PostGridItem } from "./PostGridItem";
 import axios from "axios";
 import { PostCreate } from "./PostCreate";
 
@@ -145,7 +145,7 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
     renderRows = () => {
         return this.state.posts.map((post, index) => {
             return (
-                <PostView
+                <PostGridItem
                     key={index}
                     post={post.text}
                     createdByName={post.createdByName}
@@ -156,7 +156,7 @@ export class PostGrid extends React.Component<PostGridProps, PostGridState> {
 
     render() {
         return (
-            <div>
+            <div style={{ width: "700px", marginLeft: "240px" }}>
                 <div>
                     <div className={PostGridStyle.gridHead}>
                         <PostCreate onPostSend={this.createPost} />

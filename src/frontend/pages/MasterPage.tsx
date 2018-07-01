@@ -6,6 +6,7 @@ import { ReduxState } from "../redux/State";
 import { Navigation } from "../components/Navigation";
 import { Layout } from "antd";
 import { rootName } from "../../common/RootConstant";
+import { relative } from "path";
 
 interface MasterPageProps {
     currentPage: rootName;
@@ -30,7 +31,7 @@ export class MasterPageComponent extends React.Component<
                 return (
                     <UserProfile
                         userAccessToken={this.props.user.userToken}
-                        id={this.props.pages.userProfile.userId}
+                        user={this.props.pages.userProfile}
                         currentUser={this.props.user}
                     />
                 );
@@ -38,7 +39,7 @@ export class MasterPageComponent extends React.Component<
                 return (
                     <UserProfile
                         userAccessToken={this.props.user.userToken}
-                        id={this.props.pages.userProfile.userId}
+                        user={this.props.pages.userProfile}
                         currentUser={this.props.user}
                     />
                 );
@@ -63,7 +64,8 @@ export class MasterPageComponent extends React.Component<
                         width: 700,
                         marginLeft: "auto",
                         marginRight: "auto",
-                        marginTop: 70
+                        marginTop: 70,
+                        position: "relative"
                     }}
                 >
                     {this.getPage()}

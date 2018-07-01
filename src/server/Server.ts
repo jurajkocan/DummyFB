@@ -185,7 +185,7 @@ export const startServer = async () => {
         const user = getUserFromSession(req);
         let html;
         if (user && userAccessToken) {
-            const pageSettings = getPageSettings(req, user);
+            const pageSettings = await getPageSettings(req, user);
             const appState = getDefaultAppState(
                 userAccessToken,
                 user,

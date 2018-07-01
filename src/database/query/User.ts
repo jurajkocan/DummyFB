@@ -60,13 +60,12 @@ const getUserFromDb = async (data?: any): Promise<DbUser> => {
 // fake user data (image and connection)
 const fakeData = (user: DbUser | DbUser[]) => {
     const addDataToUser = (userToExtend: DbUser) => {
-        const randomNumber = Math.floor(Math.random() * 10) + 1;
         const randomBool = Math.floor(Math.random() * 2) === 0 ? false : true;
         const extendedUSer: DbUser = {
             ...userToExtend,
             imageUrl:
                 "https://randomuser.me/api/portraits/women/" +
-                randomNumber +
+                userToExtend.id +
                 ".jpg",
             isConnected: randomBool
         };
